@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { firebase, auth } from "@/firebase";
+import { firebase, auth, db } from "@/firebase";
 
 export default {
   name: "Login",
@@ -49,11 +49,24 @@ export default {
       const provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth().languageCode = "es";
       try {
-          const result = await firebase.auth().signInWithPopup(provider);
-          const user = result.user
-          console.log(user)
+        const result = await firebase.auth().signInWithPopup(provider);
+        const user = result.user;
+
+        const theUser = {
+          name: user.displayName,
+          email: user.email,
+          uid: user.uid,
+          picture: user.photoURL
+        };
+
+        await db
+          .collection("users")
+          .doc(theUser.uid)
+          .set({
+            theUser
+          });
       } catch (error) {
-          console.log(error)
+        console.log(error);
       }
     }
   }
