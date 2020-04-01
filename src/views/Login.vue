@@ -11,7 +11,7 @@
         </v-card-text>
 
         <v-card-text>
-          <v-btn block color="error">
+          <v-btn block color="error" @click="google">
             <v-icon left dark>fab fa-google</v-icon>
             Google
           </v-btn>
@@ -22,7 +22,11 @@
         </v-card-text>
 
         <v-card-text>
-          <v-btn block @click="noAccount = !noAccount">{{ noAccount ? 'Do yu already have account? Log in here' : 'No account? Sign up here' }}</v-btn>
+          <v-btn block @click="noAccount = !noAccount">{{
+            noAccount
+              ? "Do yu already have account? Log in here"
+              : "No account? Sign up here"
+          }}</v-btn>
         </v-card-text>
       </v-card>
     </v-flex>
@@ -30,12 +34,28 @@
 </template>
 
 <script>
+import { firebase, auth } from "@/firebase";
+
 export default {
   name: "Login",
   data() {
     return {
       noAccount: false
     };
+  },
+  methods: {
+    async google() {
+      console.log("google");
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().languageCode = "es";
+      try {
+          const result = await firebase.auth().signInWithPopup(provider);
+          const user = result.user
+          console.log(user)
+      } catch (error) {
+          console.log(error)
+      }
+    }
   }
 };
 </script>
