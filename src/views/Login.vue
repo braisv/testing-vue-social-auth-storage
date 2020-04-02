@@ -15,7 +15,7 @@
             <v-icon left dark>fab fa-google</v-icon>
             Google
           </v-btn>
-          <v-btn block color="info" class="mt-2">
+          <v-btn block color="info" @click="facebook" class="mt-2">
             <v-icon left dark>fab fa-facebook-f</v-icon>
             Facebook
           </v-btn>
@@ -44,9 +44,7 @@ export default {
     };
   },
   methods: {
-    async google() {
-      console.log("google");
-      const provider = new firebase.auth.GoogleAuthProvider();
+    async login(provider) {
       firebase.auth().languageCode = "es";
       try {
         const result = await firebase.auth().signInWithPopup(provider);
@@ -68,6 +66,14 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    google() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      this.login(provider);
+    },
+    facebook() {
+      const provider = new firebase.auth.FacebookAuthProvider();
+      this.login(provider);
     }
   }
 };
