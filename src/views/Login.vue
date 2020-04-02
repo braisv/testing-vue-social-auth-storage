@@ -44,6 +44,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["newUser"]),
     async login(provider) {
       firebase.auth().languageCode = "es";
       try {
@@ -56,6 +57,8 @@ export default {
           uid: user.uid,
           picture: user.photoURL
         };
+
+        this.newUser(theUser)
 
         await db
           .collection("users")
