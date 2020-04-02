@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { auth } from '@/firebase';
+import router from "@/router";
 
 Vue.use(Vuex)
 
@@ -14,13 +16,19 @@ export default new Vuex.Store({
   },
   actions: {
     setUser({ commit }, payload) {
+      console.log("PAYLOAD: ", payload)
       const user = {
-        name: user.displayName,
-        email: user.email,
-        uid: user.uid,
-        picture: user.photoURL
+        name: payload.displayName,
+        email: payload.email,
+        uid: payload.uid,
+        picture: payload.photoURL
       }
       commit('newUser', user)
+    },
+    logout({ commit }) {
+      auth.signOut()
+      commit('newUser', null)
+      router.push({ name: 'Login' })
     }
   },
   modules: {

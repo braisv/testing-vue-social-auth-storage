@@ -24,7 +24,7 @@
         <v-card-text>
           <v-btn block @click="noAccount = !noAccount">{{
             noAccount
-              ? "Do yu already have account? Log in here"
+              ? "Do you already have account? Log in here"
               : "No account? Sign up here"
           }}</v-btn>
         </v-card-text>
@@ -35,6 +35,8 @@
 
 <script>
 import { firebase, auth, db } from "@/firebase";
+import router from "@/router"
+import { mapMutations } from "vuex";
 
 export default {
   name: "Login",
@@ -58,7 +60,7 @@ export default {
           picture: user.photoURL
         };
 
-        this.newUser(theUser)
+        this.newUser(theUser);
 
         await db
           .collection("users")
@@ -66,6 +68,8 @@ export default {
           .set({
             theUser
           });
+
+        router.push({ name: "Home" });
       } catch (error) {
         console.log(error);
       }
