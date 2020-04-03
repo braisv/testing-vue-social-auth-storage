@@ -29,6 +29,18 @@
 
     <v-navigation-drawer v-model="drawer" absolute dark app>
       <v-list dense nav class="py-0">
+        <v-row>
+          <v-col cols="12">
+            <v-row align="center" justify="center">
+              <v-avatar>
+                <img :src="user.picture" />
+              </v-avatar>
+            </v-row>
+          </v-col>
+          <v-col cols="12">
+            {{ user.name }}
+          </v-col>
+        </v-row>
         <!-- <v-list-item two-line v-if="user.name">
           <v-list-item-avatar>
             <img :src="user.picture" />
@@ -42,14 +54,14 @@
 
         <v-divider class="mb-3"></v-divider>
 
-        <v-list-item v-for="item in items" :key="item.title" link>
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
+        <v-list-item v-for="item in items" :key="item.title" link :to="item.to">
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
 
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -64,16 +76,20 @@ export default {
   data: () => ({
     drawer: true,
     items: [
-      { title: "Profile", icon: "fas fa-address-book" },
-      { title: "Favourites", icon: "fas fa-star" },
-      { title: "Settings", icon: "fas fa-cog" }
+      {
+        title: "Profile",
+        icon: "fas fa-address-book",
+        to: { name: "Profile" }
+      },
+      { title: "Favourites", icon: "fas fa-star", to: { name: "Login" } },
+      { title: "Settings", icon: "fas fa-cog", to: { name: "Login" } }
     ]
   }),
   methods: {
     ...mapActions(["logout"])
   },
   computed: {
-      ...mapState(['user']),
+    ...mapState(["user"])
   }
 };
 </script>
