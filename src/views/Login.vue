@@ -24,7 +24,7 @@
         <v-card-text>
           <v-btn block @click="noAccount = !noAccount">{{
             noAccount
-              ? "Do you already have account? Log in here"
+              ? "Have account? Log in here"
               : "No account? Sign up here"
           }}</v-btn>
         </v-card-text>
