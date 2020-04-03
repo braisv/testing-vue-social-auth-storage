@@ -1,7 +1,8 @@
 <template>
   <nav>
     <v-app-bar app color="secondary" dark>
-      <v-app-bar-nav-icon class="mr-3"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon class="mr-3" @click="drawer = !drawer">
+      </v-app-bar-nav-icon>
       <div class="d-flex align-center">
         <router-link :to="{ name: 'Home' }">
           <v-img
@@ -25,19 +26,54 @@
         <v-icon>fas fa-address-book</v-icon>
       </v-btn>
     </v-app-bar>
+
+    <v-navigation-drawer v-model="drawer" absolute dark app>
+      <v-list dense nav class="py-0">
+        <!-- <v-list-item two-line v-if="user.name">
+          <v-list-item-avatar>
+            <img :src="user.picture" />
+          </v-list-item-avatar>
+
+          <v-list-item-content>
+            <v-list-item-title>{{user.name}}</v-list-item-title>
+            <v-list-item-subtitle>{{user.email}}</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item> -->
+
+        <v-divider class="mb-3"></v-divider>
+
+        <v-list-item v-for="item in items" :key="item.title" link>
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
   </nav>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "Navbar",
   data: () => ({
-    //
+    drawer: true,
+    items: [
+      { title: "Profile", icon: "fas fa-address-book" },
+      { title: "Favourites", icon: "fas fa-star" },
+      { title: "Settings", icon: "fas fa-cog" }
+    ]
   }),
   methods: {
     ...mapActions(["logout"])
+  },
+  computed: {
+      ...mapState(['user']),
   }
 };
 </script>
