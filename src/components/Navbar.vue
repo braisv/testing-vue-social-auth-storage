@@ -29,7 +29,7 @@
 
     <v-navigation-drawer v-model="drawer" absolute dark app>
       <v-list dense nav class="py-0">
-        <v-row>
+        <v-row v-if="user != ''">
           <v-col cols="12">
             <v-row align="center" justify="center">
               <v-avatar>

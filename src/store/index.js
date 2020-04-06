@@ -1,36 +1,55 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import { auth } from '@/firebase';
+import Vue from "vue";
+import Vuex from "vuex";
+import { auth, db } from "@/firebase";
 import router from "@/router";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    user: {}
+    user: ""
   },
   mutations: {
     newUser(state, payload) {
-      state.user = payload;
+      payload === null ? (state.user = "") : (state.user = payload);
     }
   },
   actions: {
-    setUser({ commit }, payload) {
-      console.log("PAYLOAD: ", payload)
-      const user = {
-        name: payload.displayName,
-        email: payload.email,
-        uid: payload.uid,
-        picture: payload.photoURL
+    async setUser({ commit }, payload) {
+      try {
+        const doc = await db
+          .collection("users")
+          .doc(payload.uid)
+          .get();
+
+        if (doc.exists) {
+          commit("newUser", doc.data());
+        } else {
+          const user = {
+            name: payload.displayName,
+            email: payload.email,
+            uid: payload.uid,
+            picture: payload.photoURL
+          };
+
+          await db
+            .collection("users")
+            .doc(user.uid)
+            .set(user);
+
+          commit("newUser", user);
+        }
+      } catch (err) {
+        console.log(err);
       }
-      commit('newUser', user)
+
+      console.log("PAYLOAD: ", payload);
     },
     logout({ commit }) {
-      auth.signOut()
-      commit('newUser', null)
-      router.push({ name: 'Login' })
+      auth.signOut();
+      commit("newUser", null);
+      router.push({ name: "Login" });
     }
   },
-  modules: {
-  }
-})
+  modules: {}
+});

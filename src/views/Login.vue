@@ -36,7 +36,7 @@
 <script>
 import { firebase, auth, db } from "@/firebase";
 import router from "@/router"
-import { mapMutations } from "vuex";
+import { mapMutations, mapActions } from "vuex";
 
 export default {
   name: "Login",
@@ -47,25 +47,14 @@ export default {
   },
   methods: {
     ...mapMutations(["newUser"]),
+    ...mapActions(["setUser"]),
     async login(provider) {
       firebase.auth().languageCode = "es";
       try {
         const result = await firebase.auth().signInWithPopup(provider);
         const user = result.user;
-
-        const theUser = {
-          name: user.displayName,
-          email: user.email,
-          uid: user.uid,
-          picture: user.photoURL
-        };
-
-        this.newUser(theUser);
-
-        await db
-          .collection("users")
-          .doc(theUser.uid)
-          .set(theUser);
+        console.log("USER: ", user)
+        this.setUser(user)
 
         router.push({ name: "Home" });
       } catch (error) {
