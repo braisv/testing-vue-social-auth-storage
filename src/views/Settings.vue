@@ -13,7 +13,7 @@
           <v-card-text>
               <input class="d-none" type="file" ref="button" @change="searchImage($event)">
               <v-btn class="mr-5" color="primary" @click="$refs.button.click()">Search Image</v-btn>
-              <v-btn color="secondary" :disabled="!file">Upload Image</v-btn>
+              <v-btn color="secondary" :disabled="!file" :loading="loading" @click="uploadImage()">Upload Image</v-btn>
           </v-card-text>
           <v-card-text v-if="file">
               <h4>{{ file.name }}</h4>
@@ -26,13 +26,15 @@
 
 <script>
 import { mapState } from "vuex";
+import { firebase, storage, db } from "@/firebase"
 
 export default {
   name: "Settings",
   data() {
       return {
           file: null,
-          urlTemp: ''
+          urlTemp: '',
+          loading: false
       }
   },
   methods: {
@@ -45,6 +47,33 @@ export default {
           reader.onload = (e) => {
               this.urlTemp = e.target.result
               // console.log(urlTemp)
+          }
+      },
+      async uploadImage() {
+
+          try {
+              this.loading = true;
+              const refImg = storage.ref().child(this.user.email).child('Profile Pic');
+              const res = await refImg.put(this.file)
+
+              console.log(res)
+
+              const urlDownload = await refImg.getDownloadURL()
+
+              console.log(urlDownload)
+
+              this.user.picture = urlDownload
+
+              await db.collection('users').doc(this.user.uid).update({
+                  picture: urlDownload
+              })
+
+              console.log("USER UPDATED: ", this.user)
+
+          } catch (err) {
+              console.log(err)
+          } finally {
+              this.loading = false
           }
       }
   },

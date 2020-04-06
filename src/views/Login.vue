@@ -65,9 +65,7 @@ export default {
         await db
           .collection("users")
           .doc(theUser.uid)
-          .set({
-            theUser
-          });
+          .set(theUser);
 
         router.push({ name: "Home" });
       } catch (error) {
