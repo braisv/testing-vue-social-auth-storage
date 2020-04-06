@@ -41,17 +41,6 @@
             {{ user.name }}
           </v-col>
         </v-row>
-        <!-- <v-list-item two-line v-if="user.name">
-          <v-list-item-avatar>
-            <img :src="user.picture" />
-          </v-list-item-avatar>
-
-          <v-list-item-content>
-            <v-list-item-title>{{user.name}}</v-list-item-title>
-            <v-list-item-subtitle>{{user.email}}</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item> -->
-
         <v-divider class="mb-3"></v-divider>
 
         <v-list-item v-for="item in items" :key="item.title" link :to="item.to">

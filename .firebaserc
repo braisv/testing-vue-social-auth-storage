@@ -1,0 +1,5 @@
+{
+  "projects": {
+    "default": "vue-social-auth-storage"
+  }
+}
