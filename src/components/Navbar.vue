@@ -55,13 +55,13 @@
         <v-divider class="mb-3"></v-divider>
 
         <v-list-item v-for="item in items" :key="item.title" link :to="item.to">
-            <v-list-item-icon>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
 
-            <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item-content>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -82,7 +82,7 @@ export default {
         to: { name: "Profile" }
       },
       { title: "Favourites", icon: "fas fa-star", to: { name: "Login" } },
-      { title: "Settings", icon: "fas fa-cog", to: { name: "Login" } }
+      { title: "Settings", icon: "fas fa-cog", to: { name: "Settings" } }
     ]
   }),
   methods: {
