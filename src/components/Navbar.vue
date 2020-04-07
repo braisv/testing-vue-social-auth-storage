@@ -71,7 +71,8 @@ export default {
         to: { name: "Profile" }
       },
       { title: "Favourites", icon: "fas fa-star", to: { name: "Login" } },
-      { title: "Settings", icon: "fas fa-cog", to: { name: "Settings" } }
+      { title: "Chat", icon: "fas fa-comments", to: { name: "Chat" } },
+      { title: "Settings", icon: "fas fa-cog", to: { name: "Settings" } },
     ]
   }),
   methods: {
