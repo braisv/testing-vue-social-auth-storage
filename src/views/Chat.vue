@@ -15,11 +15,15 @@
           <p class="caption">{{ date }}</p>
         </v-card-text>
         <v-card-text class="text-right">
-            <v-form @submit.prevent="sendMessage()">
-                <v-text-field v-model="message" label="Write your message here">
-
-                </v-text-field>
-            </v-form>
+          <v-form @submit.prevent="sendMessage()" v-model="validation">
+            <v-text-field
+              v-model="message"
+              label="Write your message here"
+              required
+              :rules="rules"
+            >
+            </v-text-field>
+          </v-form>
         </v-card-text>
       </v-card>
     </v-col>
@@ -33,16 +37,20 @@ export default {
   data() {
     return {
       date: new Date(),
-      message: ""
+      message: "",
+      validation: false,
+      rules: [
+          v => !!v || 'Message required'
+      ]
     };
   },
   computed: {
     ...mapState(["user"])
   },
   methods: {
-      sendMessage() {
-          console.log('Message sent')
-      }
+    sendMessage() {
+        this.validation ? console.log("Message sent") : console.log('Message error')
+    }
   }
 };
 </script>
