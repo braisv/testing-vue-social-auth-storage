@@ -63,7 +63,7 @@ import { mapActions, mapState } from "vuex";
 export default {
   name: "Navbar",
   data: () => ({
-    drawer: true,
+    drawer: false,
     items: [
       {
         title: "Profile",

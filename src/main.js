@@ -8,6 +8,9 @@ import '@mdi/font/css/materialdesignicons.css'
 
 import { auth } from "@/firebase";
 
+import VueChatScroll from "vue-chat-scroll";
+Vue.use(VueChatScroll)
+
 Vue.config.productionTip = false
 
 auth.onAuthStateChanged(function(user) {
